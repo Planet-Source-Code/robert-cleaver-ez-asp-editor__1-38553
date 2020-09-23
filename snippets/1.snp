@@ -1,0 +1,41 @@
+<!-- Server Log -->
+<%
+Dim ServerObj
+Dim ServerFile
+Dim logFile
+logFile = Server.MapPath("log.html")
+Set ServerObj = Server.CreateObject("Scripting.FileSystemObject")
+Set ServerFile = ServerObj.OpenTextFile(logFile)
+While Not ServerFile.AtEndOfStream
+Backup = ServerFile.Readline & Backup
+Wend
+ServerFile.Close
+Set ServerFile = ServerObj.CreateTextFile(logFile, true)
+Response.Clear
+%>
+<body bgcolor="444444">
+<style>
+.banner {border:solid 1 px;}
+.headerText {font-family:tahoma,arial,verdana;font-size:8 pt;color:AAAAAA;}
+.header {border:solid 0 px;border-bottom:solid 1 px;background-color:#52A4D7;}
+.item {border:solid 0 px;border-bottom:solid 1 px;}
+.menuText {font-family:tahoma,arial,verdana;font-size:8 pt;font-color:000000;}
+.LoginClass {font-family:tahoma,arial,verdana;font-size:8 pt;color:000000;background-color:#3082A4;width:110;border:solid 1 px;border-color:000000;}
+.panelHeader {border-right:solid 1 px;border-bottom:solid 0 px;background-color:#1D5B7B;}
+.panelItem {border-right:solid 1 px;border-bottom:solid 1 px;background-color:#3082A4;}
+.logClass {border-top:solid 1 px;border-color:000000;background-color:#3082A4;font-family:tahoma;font-size:8 pt;}
+</style>
+<table style="border:solid 1 px;width:500;background-color:666666;border-color:000000;" cellspacing="0" cellpadding="3">
+<%
+TableLine = "<tr>"
+TableLine = TableLine & "<td class=" & chr(34) & "panelHeader" & chr(34) & "><font face=" & chr(34) & "tahoma" & chr(34) & " size=" & chr(34) & "1" & chr(34) & "><center><b>IP</b></td>"
+TableLine = TableLine & "<td class=" & chr(34) & "panelHeader" & chr(34) & "><font face=" & chr(34) & "tahoma" & chr(34) & " size=" & chr(34) & "1" & chr(34) & "><center><b>Date</b></td>"
+TableLine = TableLine & "<td class=" & chr(34) & "panelHeader" & chr(34) & " style=" & chr(34) & "border-right:solid 0 px;" & chr(34) & "><font face=" & chr(34) & "tahoma" & chr(34) & " size=" & chr(34) & "1" & chr(34) & "><center><b>Time</b></td>"
+TableLine = TableLine & "</tr>"
+Response.Write(TableLine)
+ServerFile.WriteLine("<tr><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Request.ServerVariables("REMOTE_ADDR") & "</td><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Date & "</td><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Time & "</td></tr>" & Backup & "</table>")
+Response.Write("<tr><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Request.ServerVariables("REMOTE_ADDR") & "</td><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Date & "</td><td class=" & chr(34) & "logClass" & chr(34) & "><center>" & Time & "</td></tr>" & Backup & "</table>")
+%>
+
+
+
